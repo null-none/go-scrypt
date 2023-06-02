@@ -1,4 +1,4 @@
-package main
+package scrypt
 
 import (
 	"bufio"
@@ -67,30 +67,4 @@ func DeriveKey(password, salt []byte) ([]byte, []byte, error) {
 		return nil, nil, err
 	}
 	return key, salt, nil
-}
-func main() {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Enter password and text for encryption")
-	fmt.Println("---------------------")
-	fmt.Print("Password -> ")
-	inputPassword, _ := reader.ReadString('\n')
-	inputPassword = strings.Replace(inputPassword, "\n", "", -1)
-	fmt.Print("Data -> ")
-	inputData, _ := reader.ReadString('\n')
-	inputData = strings.Replace(inputData, "\n", "", -1)
-
-	var (
-		password = []byte(inputPassword)
-		data     = []byte(inputData)
-	)
-	ciphertext, err := Encrypt(password, data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("ciphertext: %s\n", hex.EncodeToString(ciphertext))
-	plaintext, err := Decrypt(password, ciphertext)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("plaintext: %s\n", plaintext)
 }
